@@ -131,5 +131,10 @@ EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']  # пароль от поч�
 # Яндекс использует ssl, подробнее о том, что это,
 # почитайте в дополнительных источниках, но включать его здесь обязательно
 EMAIL_USE_SSL = True
-DEFAULT_FROM_EMAIL = config['EMAIL_HOST_USER'] + '@yandex.ru'
+DEFAULT_FROM_EMAIL = config['EMAIL_HOST_USER'] + config['EMAIL_DOMAIN']
 RECIPIENT_LIST = config['RECIPIENT_LIST'].split()
+
+# список всех админов в формате ('имя', 'их почта')
+ADMINS = list(zip(config['ADMINS_NAME'].split(), config['ADMINS_EMAIL'].split()))
+# это будет у нас вместо аргумента FROM в массовой рассылке
+SERVER_EMAIL = config['SERVER_EMAIL']

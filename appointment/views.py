@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from datetime import datetime
-# импортируем класс для создания объекта письма с html
-from django.core.mail import EmailMultiAlternatives
-# импортируем функцию, которая срендерит наш html в текст
-from django.template.loader import render_to_string
+
+# импортируем функцию для массовой отправки писем админам
+from django.core.mail import mail_admins
+
 from .models import Appointment
 
 from EmailScheduler.settings import DEFAULT_FROM_EMAIL, RECIPIENT_LIST
@@ -22,24 +22,11 @@ class AppointmentView(View):
         )
         appointment.save()
 
-        # получаем наш html в виде строки
-        html_content = render_to_string(
-            'appointment_created.html',
-            {
-                'appointment': appointment,  # appointment передаем в контекст
-            }
+        # отправляем письмо всем админам по аналогии с send_mail, только здесь получателя указывать не надо
+        mail_admins(
+            subject=f'{appointment.client_name} {appointment.date.strftime("%d %m %Y")}',
+            message=appointment.message,
         )
-
-        # инстанс EmailMultiAlternatives похож на метод send_mail()
-        msg = EmailMultiAlternatives(
-            subject=f'{appointment.client_name} {appointment.date.strftime("%Y-%m-%d")}',
-            body=appointment.message,  # это то же, что и message
-            from_email=DEFAULT_FROM_EMAIL,
-            to=RECIPIENT_LIST,  # это то же, что и recipients_list
-        )
-        # метод, что передает строку-html в объявленный инстанс
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()  # отсылаем
 
         return redirect('appointments:register')
 
