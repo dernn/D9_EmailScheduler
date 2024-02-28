@@ -1,10 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.views import View
 from datetime import datetime
-
+# отправление электронных писем
+from django.core.mail import send_mail
 from .models import Appointment
 
-from pprint import pprint
+from EmailScheduler.settings import DEFAULT_FROM_EMAIL, RECIPIENT_LIST
+
 
 
 class AppointmentView(View):
@@ -18,6 +20,15 @@ class AppointmentView(View):
             message=request.POST['message'],
         )
         appointment.save()
+
+        # отправка письма
+        send_mail(
+            subject=f'{appointment.client_name} {appointment.date.strftime("%Y-%m-%d")}',
+            # имя клиента и дата записи будут в теме для удобства
+            message=appointment.message,  # сообщение с кратким описанием проблемы
+            from_email=DEFAULT_FROM_EMAIL,  # здесь указываете почту, с которой будете отправлять (об этом попозже)
+            recipient_list=RECIPIENT_LIST  # здесь list получателей. Например, секретарь, сам врач и т. д.
+        )
 
         return redirect('appointments:register')
 
