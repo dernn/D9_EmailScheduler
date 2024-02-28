@@ -6,7 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>{{ appointment.client_name }} Thank you for making an appointment!</h2>
-    <p> You have an appointment for {{ appointment.date|date:"d-M-Y" }} regarding the issue: {{ appointment.message|truncatechars:50 }} </p>
+    <h2>'{{ appointment.client_name }}', thank you for making an appointment!</h2>
+    <p> You have an appointment for {{ appointment.date|date:"d-M-Y" }}
+        regarding the issue: '{{ appointment.message|truncatechars:50 }}' </p>
 </body>
 </html>

@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect
 from django.views import View
 from datetime import datetime
-# отправление электронных писем
-from django.core.mail import send_mail
+# импортируем класс для создания объекта письма с html
+from django.core.mail import EmailMultiAlternatives
+# импортируем функцию, которая срендерит наш html в текст
+from django.template.loader import render_to_string
 from .models import Appointment
 
 from EmailScheduler.settings import DEFAULT_FROM_EMAIL, RECIPIENT_LIST
-
 
 
 class AppointmentView(View):
@@ -21,14 +22,24 @@ class AppointmentView(View):
         )
         appointment.save()
 
-        # отправка письма
-        send_mail(
-            subject=f'{appointment.client_name} {appointment.date.strftime("%Y-%m-%d")}',
-            # имя клиента и дата записи будут в теме для удобства
-            message=appointment.message,  # сообщение с кратким описанием проблемы
-            from_email=DEFAULT_FROM_EMAIL,  # здесь указываете почту, с которой будете отправлять (об этом попозже)
-            recipient_list=RECIPIENT_LIST  # здесь list получателей. Например, секретарь, сам врач и т. д.
+        # получаем наш html в виде строки
+        html_content = render_to_string(
+            'appointment_created.html',
+            {
+                'appointment': appointment,  # appointment передаем в контекст
+            }
         )
+
+        # инстанс EmailMultiAlternatives похож на метод send_mail()
+        msg = EmailMultiAlternatives(
+            subject=f'{appointment.client_name} {appointment.date.strftime("%Y-%m-%d")}',
+            body=appointment.message,  # это то же, что и message
+            from_email=DEFAULT_FROM_EMAIL,
+            to=RECIPIENT_LIST,  # это то же, что и recipients_list
+        )
+        # метод, что передает строку-html в объявленный инстанс
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()  # отсылаем
 
         return redirect('appointments:register')
 
