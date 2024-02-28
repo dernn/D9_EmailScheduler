@@ -4,6 +4,8 @@ from datetime import datetime
 
 from .models import Appointment
 
+from pprint import pprint
+
 
 class AppointmentView(View):
     def get(self, request, *args, **kwargs):
@@ -17,9 +19,10 @@ class AppointmentView(View):
         )
         appointment.save()
 
-        return redirect('appointments:make_appointment')
+        return redirect('appointments:register')
 
 
 class AppointmentCreatedView(View):
+
     def get(self, request, *args, **kwargs):
-        return render(request, 'appointment_created.html', {})
+        return render(request, 'register.html', {})

@@ -7,7 +7,8 @@
 </head>
 <body>
     <h1>Make an appointment</h1>
-    <from action="{% url 'appointments:make_appointment' %}" method="POST">
+    <!-- обращаемся к AppointmentView через namespace 'appointments:' -->
+    <form action="{% url 'appointments:make_appointment' %}" method="POST">
         {% csrf_token %}
         <label for="client_name">Your name</label>
         <input type="text" name="client_name"><br>
@@ -15,9 +16,9 @@
         <input type="text" name="message"><br>
         <label for="date">Choose date</label>
         <input type="date" name="date"><br>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" onclick="location.href=/created">
         <a href="/created"><input type="button" value="back"></a>
         <input type="button" value="Redirect" onclick="location.href=/created">
-    </from>
+    </form>
 </body>
 </html>
