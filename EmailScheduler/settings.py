@@ -12,10 +12,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 # use python-dotenv
-from dotenv import load_dotenv
-import os
+from dotenv import dotenv_values
 
-load_dotenv()  # take environment variables from .env.
+config = dotenv_values()  # include all values from .env like dict
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -127,10 +126,10 @@ EMAIL_HOST = 'smtp.yandex.ru'  # адрес сервера Яндекс-почт
 EMAIL_PORT = 465  # порт smtp сервера тоже одинаковый
 # ваше имя пользователя, например, если ваша почта user@yandex.ru,
 # то сюда надо писать user, иными словами, это всё то что идёт до собаки
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # пароль от почты
+EMAIL_HOST_USER = config['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']  # пароль от почты
 # Яндекс использует ssl, подробнее о том, что это,
 # почитайте в дополнительных источниках, но включать его здесь обязательно
 EMAIL_USE_SSL = True
-DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER') + '@yandex.ru'
-RECIPIENT_LIST = os.getenv('RECIPIENT_LIST').split()
+DEFAULT_FROM_EMAIL = config['EMAIL_HOST_USER'] + '@yandex.ru'
+RECIPIENT_LIST = config['RECIPIENT_LIST'].split()
