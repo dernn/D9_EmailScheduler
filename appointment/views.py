@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.views import View
 from datetime import datetime
 
-# импортируем функцию для массовой отправки писем админам
-from django.core.mail import mail_admins
+# импортируем функцию для массовой отправки писем уже менеджерам
+from django.core.mail import mail_managers
 
 from .models import Appointment
 
@@ -22,8 +22,8 @@ class AppointmentView(View):
         )
         appointment.save()
 
-        # отправляем письмо всем админам по аналогии с send_mail, только здесь получателя указывать не надо
-        mail_admins(
+        # рассылка по группе MANAGERS
+        mail_managers(
             subject=f'{appointment.client_name} {appointment.date.strftime("%d %m %Y")}',
             message=appointment.message,
         )

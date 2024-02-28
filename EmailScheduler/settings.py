@@ -134,7 +134,7 @@ EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = config['EMAIL_HOST_USER'] + config['EMAIL_DOMAIN']
 RECIPIENT_LIST = config['RECIPIENT_LIST'].split()
 
-# список всех админов в формате ('имя', 'их почта')
-ADMINS = list(zip(config['ADMINS_NAME'].split(), config['ADMINS_EMAIL'].split()))
+# список всех менеджеров в формате ('имя', 'их почта')
+MANAGERS = list(zip(config['ADMINS_NAME'].split(), config['ADMINS_EMAIL'].split()))
 # это будет у нас вместо аргумента FROM в массовой рассылке
 SERVER_EMAIL = config['SERVER_EMAIL']
