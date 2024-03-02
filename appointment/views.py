@@ -7,6 +7,8 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from .models import Appointment
 
+# settings можно импортировать из django.conf
+# from django.conf import settings
 from EmailScheduler.settings import DEFAULT_FROM_EMAIL, RECIPIENT_LIST
 
 
