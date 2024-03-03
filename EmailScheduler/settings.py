@@ -40,6 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'appointment',
+    # django-allauth all-need
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # настройки middleware для django-allauth
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = 'EmailScheduler.urls'
@@ -133,3 +141,28 @@ EMAIL_HOST_PASSWORD = config['EMAIL_HOST_PASSWORD']  # пароль от поч�
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = config['EMAIL_HOST_USER'] + '@yandex.ru'
 RECIPIENT_LIST = config['RECIPIENT_LIST'].split()
+
+# for django-allauth
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+# настройки allauth для входа/регистрации по email
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+# username не требуется
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# подтверждение почты отключено
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# активирует аккаунт при переходе по ссылке
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+# количество дней "жизни" ссылка на подтверждение регистрации (default: 3 )
+# ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+
+# используется в случае, если данный проект управляет несколькими сайтами
+SITE_ID = 1
