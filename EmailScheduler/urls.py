@@ -21,4 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # регистрируем namespace 'appointments'
     path('', include(('appointment.urls', 'appointments'), namespace='appointments')),
+    # django-allauth
+    path('accounts/', include('allauth.urls')),
 ]

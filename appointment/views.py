@@ -7,8 +7,6 @@ from django.core.mail import mail_managers
 
 from .models import Appointment
 
-from EmailScheduler.settings import DEFAULT_FROM_EMAIL, RECIPIENT_LIST
-
 
 class AppointmentView(View):
     def get(self, request, *args, **kwargs):
