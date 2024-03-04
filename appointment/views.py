@@ -2,9 +2,6 @@ from django.shortcuts import render, redirect
 from django.views import View
 from datetime import datetime
 
-# импортируем функцию для массовой отправки писем уже менеджерам
-from django.core.mail import mail_managers
-
 from .models import Appointment
 
 
@@ -19,12 +16,6 @@ class AppointmentView(View):
             message=request.POST['message'],
         )
         appointment.save()
-
-        # рассылка по группе MANAGERS
-        mail_managers(
-            subject=f'{appointment.client_name} {appointment.date.strftime("%d %m %Y")}',
-            message=appointment.message,
-        )
 
         return redirect('appointments:register')
 
