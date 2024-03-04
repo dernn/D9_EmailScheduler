@@ -18,3 +18,6 @@ def notify_managers_appointment(sender, instance, created, **kwargs):
         subject=subject,
         message=instance.message,
     )
+
+# с помощью сигнала request_finished можно построить систему, которая будет отслеживать и записывать в базу данных,
+# все действия пользователей на вашем сайте.
