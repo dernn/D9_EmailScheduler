@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'appointment',
+    # указываем конфиг приложения, чтобы всё заработало
+    'appointment.apps.AppointmentConfig',
     # django-allauth all-need
     'django.contrib.sites',
 
