@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+
+    # for D9.5: django_apscheduler
+    'django_apscheduler'
 ]
 
 MIDDLEWARE = [
@@ -172,3 +175,10 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
 # используется в случае, если данный проект управляет несколькими сайтами
 SITE_ID = 1
+
+# for D9.5: django_apscheduler
+# See https://docs.djangoproject.com/en/dev/ref/settings/#datetime-format for format string syntax details.
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+# если задача не выполняется за 25 секунд, то она автоматически снимается;
+# можете поставить время побольше, но как правило, это сильно бьёт по производительности сервера
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
